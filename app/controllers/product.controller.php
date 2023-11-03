@@ -78,16 +78,17 @@ class ProductApiController extends ApiController{
             $descripcion=$body->Descripcion;
             $stock=$body->Stock;
             $imagen=$body->Imagen;
+            $categoria=$body->id_categorias;
 
-        if(!empty($producto)&&!empty($precio)&&!empty($descripcion)&&!empty($stock)&& !empty($imagen)){
-            $id=$this->Model->create($producto,$precio,$descripcion,$stock,$imagen);
+        if(!empty($producto)&&!empty($precio)&&!empty($descripcion)&&!empty($stock)&& !empty($imagen) &&!empty($categoria) ){
+            $id=$this->Model->create($producto,$precio,$descripcion,$stock,$imagen,$categoria);
             $product=$this->Model->getProductId($id);
             $this->View->response($product,201);
         }else{
             $this->View->response('Faltan completar campos', 400);
         }
         
-
+    
     }
 
 
