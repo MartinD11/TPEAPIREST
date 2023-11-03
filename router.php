@@ -10,6 +10,7 @@
     $router->addRoute('productos/:ID',     'GET',    'ProductApiController', 'showById'   );
     $router->addRoute('productos/:ID',     'DELETE',    'ProductApiController', 'delete'   );
     $router->addRoute('productos/:ID',     'PUT',    'ProductApiController', 'update'   );
+    $router->addRoute('productos/',     'POST',    'ProductApiController', 'create'   );
     
 
     $router->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);

@@ -32,4 +32,12 @@ class ProductModel extends  Model {
         $query->execute([$producto,$precio,$descripcion,$stock,$imagen,$id]);
     }
 
+    public function create($producto,$precio,$descripcion,$stock,$imagen){
+        $query= $this->db->prepare('INSERT INTO productos(Producto,Precio, Descripcion, Stock, Imagen)VALUES (?,?,?,?,?)');
+        $query->execute([$$producto,$precio,$descripcion,$stock,$imagen]);
+
+        return $this->db->lastInsertId();
+
+    }
+
 }
