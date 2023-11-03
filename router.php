@@ -1,19 +1,15 @@
 <?php
-    require_once 'config.php';
     require_once 'libs/router.php';
 
-    require_once 'app/controllers/task.api.controller.php';
+    require_once 'app/controllers/product.controller.php';
 
     $router = new Router();
 
     #                 endpoint      verbo     controller           método
-    $router->addRoute('tareas',     'GET',    'TaskApiController', 'get'   );
-    $router->addRoute('tareas',     'POST',   'TaskApiController', 'create');
-    $router->addRoute('tareas/:ID', 'GET',    'TaskApiController', 'get'   );
-    $router->addRoute('tareas/:ID', 'PUT',    'TaskApiController', 'update');
-    $router->addRoute('tareas/:ID', 'DELETE', 'TaskApiController', 'delete');
-    
-    $router->addRoute('tareas/:ID/:subrecurso', 'GET',    'TaskApiController', 'get'   );
+    $router->addRoute('productos',     'GET',    'ProductApiController', 'showAll'   );
+    $router->addRoute('productos/:ID',     'GET',    'ProductApiController', 'showById'   );
+    $router->addRoute('productos/:ID',     'DELETE',    'ProductApiController', 'delete'   );
+    $router->addRoute('productos/:ID',     'PUT',    'ProductApiController', 'update'   );
     
 
     $router->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);

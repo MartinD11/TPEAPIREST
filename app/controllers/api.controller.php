@@ -2,11 +2,11 @@
     require_once 'app/views/api.view.php';
     
     abstract class ApiController {
-        protected $view;
+        protected $View;
         private $data;
         
         function __construct() {
-            $this->view = new ApiView();
+            $this->View = new ApiView();
             $this->data = file_get_contents('php://input');
         }
 
