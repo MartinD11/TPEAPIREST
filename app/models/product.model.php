@@ -4,7 +4,7 @@ class ProductModel extends  Model {
 
 
     public function getProducts(){
-        $query= $this->db->prepare('SELECT * FROM productos');
+        $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias');
         $query->execute();
         $products = $query->fetchAll(PDO::FETCH_OBJ);
         return $products;
@@ -40,4 +40,18 @@ class ProductModel extends  Model {
 
     }
 
+    public function orderASC(){
+        $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY p.Precio ASC');
+        $query->execute();
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
+        return $products;
+    }
+    
+
+    public function orderDESC(){
+        $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY p.Precio DESC');
+        $query->execute();
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
+        return $products;
+    }
 }

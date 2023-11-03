@@ -10,15 +10,30 @@ class ProductApiController extends ApiController{
         $this->Model = new ProductModel();
     }
 
-    public function showAll(){
-        $products = $this->Model->getProducts();
-        if(empty($products)){
-            $this->View->response('ha ocurrido un error',404);
-        }else {
-            $this->View->response($products,200);
-        }
 
+    public function showAll($params = NULL) {
+       
+    
+        if (isset($_GET['sortby']) && isset($_GET['order'])) {
+            $sortby = $_GET['sortby'];
+            $order = $_GET['order'];
+    
+            if ($sortby == 'Precio') {
+                if ($order == 'asc') {
+                    $products = $this->Model->orderASC();
+                } elseif ($order == 'desc') {
+                    $products = $this->Model->orderDESC();
+                }
+            }else {
+                return $this->View->response('error', 404);
+            }
+        } else {
+            $products = $this->Model->getProducts();
+        }
+    
+        return $this->View->response($products, 200);
     }
+
 
     public function showById($params = []){
         $id = $params[':ID'];
@@ -88,7 +103,7 @@ class ProductApiController extends ApiController{
             $this->View->response('Faltan completar campos', 400);
         }
         
-    
+
     }
 
 
