@@ -129,6 +129,12 @@ class ProductApiController extends ApiController{
             $stock=$body->Stock;
             $imagen=$body->Imagen;
 
+            $user = $this->authHelper->currentUser();
+            if(!$user) {
+                $this->View->response('Unauthorized', 401);
+                return;
+            }
+            
             $this->Model->update($id, $producto,$precio,$descripcion,$stock,$imagen);
 
             $this->View->response('el prodcuto con id='. $id . 'ha sido modificada', 200);
@@ -158,11 +164,6 @@ class ProductApiController extends ApiController{
     }
 
     public function create(){
-        $user = $this->authHelper->currentUser();
-            if(!$user) {
-                $this->View->response('Unauthorized', 401);
-                return;
-            }
         $body=$this->getData();
             
             $producto=$body->Producto;
@@ -173,6 +174,11 @@ class ProductApiController extends ApiController{
             $categoria=$body->id_categorias;
 
         if(!empty($producto)&&!empty($precio)&&!empty($descripcion)&&!empty($stock)&& !empty($imagen) &&!empty($categoria) ){
+            $user = $this->authHelper->currentUser();
+            if(!$user) {
+                $this->View->response('Unauthorized', 401);
+                return;
+            }
             $id=$this->Model->create($producto,$precio,$descripcion,$stock,$imagen,$categoria);
             $product=$this->Model->getProductId($id);
             $this->View->response($product,201);
