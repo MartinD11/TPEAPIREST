@@ -3,27 +3,10 @@ require 'config.php';
 class Model {
     protected $db;
     function __construct() {
-        $this->deployDataBase();
         $this->db = new PDO('mysql:host='. MYSQL_HOST .';dbname='. MYSQL_DB .';charset=utf8', MYSQL_USER, MYSQL_PASS);
         $this->deploy();
     }
 
-    function deployDataBase() {
-        try {
-            $pdo = new PDO('mysql:host=' . MYSQL_HOST, MYSQL_USER, MYSQL_PASS);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $query = 'CREATE DATABASE IF NOT EXISTS ' . MYSQL_DB;
-            $pdo->exec($query);
-
-            // Close the connection to the MySQL server after creating the database.
-            $pdo = null;
-        } catch (PDOException $e) {
-            // Handle any potential exceptions that may occur during the database creation.
-            echo 'Error creating database: ' . $e->getMessage();
-            // You might want to log this error as well.
-        }
-    }
     function deploy(){
         $query = $this->db->query('SHOW TABLES');
         $tables = $query->fetchAll(); //devuelve las tablas de la db

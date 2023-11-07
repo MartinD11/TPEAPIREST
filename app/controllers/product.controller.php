@@ -1,17 +1,26 @@
 <?php
 require_once 'app/controllers/api.controller.php';
+require_once 'app/helpers/auth.api.helper.php';
 require_once 'app/models/product.model.php';
 
 class ProductApiController extends ApiController{
     private $Model;
+    private $authHelper;
 
      public function __construct() {
         parent::__construct();
         $this->Model = new ProductModel();
+        $this->authHelper = new AuthHelper();
     }
 
 
-    /*/public function showAll($params = NULL) {
+    public function showAll($params = NULL) {
+        $user = $this->authHelper->currentUser();
+            if(!$user) {
+                $this->View->response('Unauthorized', 401);
+                return;
+            }
+
        
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 1;
@@ -39,7 +48,7 @@ class ProductApiController extends ApiController{
     
         return $this->View->response($products, 200);
     }
-    /*/
+    
 
     public function filter($params=[]){
         if(empty ($params)){
