@@ -40,9 +40,9 @@ class ProductModel extends  Model {
 
     }
 
-    public function orderASC(){
-        $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY p.Precio ASC');
-        $query->execute();
+    public function orderASC($per_Page,$offSet){
+        $query = $this->db->prepare("SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY p.Precio ASC LIMIT $offSet,$per_Page ");
+        $query->execute([$per_Page,$offSet]);
         $products = $query->fetchAll(PDO::FETCH_OBJ);
         return $products;
     }
@@ -51,6 +51,19 @@ class ProductModel extends  Model {
     public function orderDESC(){
         $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY p.Precio DESC');
         $query->execute();
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
+        return $products;
+    }
+
+    public function orderASCCol($sortby,$order){
+        $query = $this->db->prepare("SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY $sortby $order  ");
+        $query->execute();
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
+        return $products;
+    }
+    public function orderDESCCol($sortby,$order){
+        $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY ? DESC');
+        $query->execute([$sortby,$order]);
         $products = $query->fetchAll(PDO::FETCH_OBJ);
         return $products;
     }
