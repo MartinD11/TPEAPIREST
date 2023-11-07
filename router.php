@@ -3,10 +3,12 @@
 
     require_once 'app/controllers/product.controller.php';
 
+    require_once 'app/controllers/user.api.controller.php';
+
     $router = new Router();
 
     #                 endpoint      verbo     controller           método
-    //$router->addRoute('productos',     'GET',    'ProductApiController', 'showAll'   );
+    $router->addRoute('productos',     'GET',    'ProductApiController', 'showAll'   );
     $router->addRoute('productos/:ID',     'GET',    'ProductApiController', 'showById'   );
     $router->addRoute('productos/:ID',     'DELETE',    'ProductApiController', 'delete'   );
     $router->addRoute('productos/:ID',     'PUT',    'ProductApiController', 'update'   );
@@ -14,6 +16,6 @@
     $router->addRoute('productos/:ID/:subrecurso',     'GET',    'ProductApiController', 'filter'   );
     $router->addRoute('productos',     'GET',    'ProductApiController', 'showByColumns'   );
     
-    
+    $router->addRoute('user/token', 'GET',    'UserApiController', 'getToken'   );
 
     $router->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);

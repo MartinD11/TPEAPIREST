@@ -15,11 +15,7 @@ class ProductApiController extends ApiController{
 
 
     public function showAll($params = NULL) {
-        $user = $this->authHelper->currentUser();
-            if(!$user) {
-                $this->View->response('Unauthorized', 401);
-                return;
-            }
+        
 
        
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -116,6 +112,12 @@ class ProductApiController extends ApiController{
 
 
     public function update($params = []){
+        $user = $this->authHelper->currentUser();
+            if(!$user) {
+                $this->View->response('Unauthorized', 401);
+                return;
+            }
+
         $id = $params[':ID'];
         $product = $this->Model->getProductId($id);
 
@@ -137,6 +139,12 @@ class ProductApiController extends ApiController{
     }
 
     public function delete($params = []){
+        $user = $this->authHelper->currentUser();
+            if(!$user) {
+                $this->View->response('Unauthorized', 401);
+                return;
+            }
+        
         $id = $params[':ID'];
             $products = $this->Model->getProductId($id);
 
@@ -150,6 +158,11 @@ class ProductApiController extends ApiController{
     }
 
     public function create(){
+        $user = $this->authHelper->currentUser();
+            if(!$user) {
+                $this->View->response('Unauthorized', 401);
+                return;
+            }
         $body=$this->getData();
             
             $producto=$body->Producto;
