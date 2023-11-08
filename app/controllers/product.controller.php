@@ -87,22 +87,6 @@ class ProductApiController extends ApiController{
 
     }
     
-    public function showByColumns($params=null){
-        if((isset($_GET['sortby'])&&(isset($_GET['order'])))) {
-            $sortby=$_GET['sortby'];
-            $order=$_GET['order'];
-
-            $arr_Atributs=['Producto','Precio', 'Descripcion', 'Stock', 'Imagen', 'id_categorias','id_producto'];
-
-            if(in_array($sortby, $arr_Atributs)){
-                if($order=='asc'|| $order=='desc'){
-                $products=$this->Model->orderASCCol($sortby, $order);
-                $this->View->response($products,200);
-                }
-            }
-        }
-
-    }
 
     public function showById($params = []){
         $id = $params[':ID'];

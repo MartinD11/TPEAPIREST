@@ -14,7 +14,6 @@
     $router->addRoute('productos/:ID',     'PUT',    'ProductApiController', 'update'   );
     $router->addRoute('productos/',     'POST',    'ProductApiController', 'create'   );
     $router->addRoute('productos/:ID/:subrecurso',     'GET',    'ProductApiController', 'filter'   );
-    $router->addRoute('productos',     'GET',    'ProductApiController', 'showByColumns'   );
     
     $router->addRoute('user/token', 'GET',    'UserApiController', 'getToken'   );
 
