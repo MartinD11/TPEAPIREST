@@ -15,37 +15,44 @@ class ProductApiController extends ApiController{
 
 
     public function showAll($params = NULL) {
-        
-
-       
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 1;
-
-        $offSet= ($page-1)*$per_page;
-        $per_Page = (int)$per_page;
-        $offSet = (int)$offSet;
-
-
-
-        if (isset($_GET['sortby']) && isset($_GET['order'])) {
-            $sortby = $_GET['sortby'];
-            $order = $_GET['order'];
+        $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : null;
     
-            if ($sortby == 'Precio') {
-                if ($order == 'asc') {
-                    $products = $this->Model->orderASC($per_Page,$offSet);
-                } elseif ($order == 'desc') {
-                    $products = $this->Model->orderDESC($per_page,$offSet);
+        // Convierte $page en un entero
+        $page = (int)$page;
+        
+        if((isset($_GET['sortby'])&&(isset($_GET['order'])))) {
+            $sortby=$_GET['sortby'];
+            $order=$_GET['order'];
+
+            $arr_Atributs=['Producto','Precio', 'Descripcion', 'Stock', 'Imagen', 'id_categorias','id_producto'];
+
+            if(in_array($sortby, $arr_Atributs)){
+                if($order=='asc'|| $order=='desc'){
+                $products=$this->Model->orderASCCol($sortby, $order);
+                $this->View->response($products,200);
                 }
-            }else {
-                return $this->View->response('error', 404);
             }
-        } else {
+        }else if ($page > 0) {
+        if ($per_page === null) {
+            //si perpegae es nulo entonces va a mostrar todos los productos
             $products = $this->Model->getProducts();
+            $this->View->response($products, 200);
+        } else {
+            //si no es nulo, se realiza la paginacion
+            $offSet = ($page - 1) * $per_page;
+            $per_page = (int)$per_page;
+            $offSet = (int)$offSet;
+            $products = $this->Model->paginacion($per_page, $offSet);
+            $this->View->response($products, 200);
         }
-    
-        return $this->View->response($products, 200);
+    } else {
+        // Maneja el caso en el que $page no es un valor válido
+        $this->View->response("Página no válida", 400); // Puedes devolver un código de estado 400 Bad Request
     }
+        
+    }
+    
     
 
     public function filter($params=[]){
