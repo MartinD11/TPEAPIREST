@@ -22,6 +22,8 @@ class ProductApiController extends ApiController{
         $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 1;
 
         $offSet= ($page-1)*$per_page;
+        $per_Page = (int)$per_page;
+        $offSet = (int)$offSet;
 
 
 
@@ -31,7 +33,7 @@ class ProductApiController extends ApiController{
     
             if ($sortby == 'Precio') {
                 if ($order == 'asc') {
-                    $products = $this->Model->orderASC($per_page,$offSet);
+                    $products = $this->Model->orderASC($per_Page,$offSet);
                 } elseif ($order == 'desc') {
                     $products = $this->Model->orderDESC($per_page,$offSet);
                 }

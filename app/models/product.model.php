@@ -42,7 +42,7 @@ class ProductModel extends  Model {
 
     public function orderASC($per_Page,$offSet){
         $query = $this->db->prepare("SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY p.Precio ASC LIMIT $offSet,$per_Page ");
-        $query->execute([$per_Page,$offSet]);
+        $query->execute();
         $products = $query->fetchAll(PDO::FETCH_OBJ);
         return $products;
     }
