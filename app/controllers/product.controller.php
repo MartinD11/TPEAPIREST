@@ -24,14 +24,20 @@ class ProductApiController extends ApiController{
         if((isset($_GET['sortby'])&&(isset($_GET['order'])))) {
             $sortby=$_GET['sortby'];
             $order=$_GET['order'];
-
+            //agregra los campos restantes de categorias y productos
             $arr_Atributs=['Producto','Precio', 'Descripcion', 'Stock', 'Imagen', 'id_categorias','id_producto'];
 
             if(in_array($sortby, $arr_Atributs)){
                 if($order=='asc'|| $order=='desc'){
                 $products=$this->Model->orderASCCol($sortby, $order);
                 $this->View->response($products,200);
+                }else{
+                    if (!($order == 'asc' || $order == 'desc')) {
+                        $this->View->response("Página no válida", 400);
+                    }
                 }
+            }else{
+                $this->View->response("Página no válida", 400);
             }
         }else if ($page > 0) {
         if ($per_page === null) {
@@ -60,31 +66,44 @@ class ProductApiController extends ApiController{
             $products=$this->Model->getProducts();
             $this->View->response($products, 200);
         }else{
-            $product=$this->Model->getProductId($params[':ID']);
-            if(!empty($product)){
+            $products=$this->Model->getProducts();
+            if(!empty($products)){
                 if($params[':subrecurso']){
                     switch ($params[':subrecurso']){
                         case 'Producto': 
-                            $this->View->response($product->Producto,200);
+                            foreach($products as $product){
+                                $this->View->response($product->Producto,200);
+                            }
                             break;
-                            case 'Precio': 
-                                $this->View->response($product->Precio,200);
-                                break;
-                                case 'Descripcion': 
-                                    $this->View->response($product->Descripcion,200);
-                                    break;
-                                    case 'Stock': 
-                                        $this->View->response($product->Stock,200);
-                                        break;
-                                        case 'id_categoria': 
-                                            $this->View->response($product->id_categorias,200);
-                                            break;
-                                            default:$this->View->response('El producto no contiene'. $params[':subrecurso'] .'. ', 400) ; break ; 
+                        case 'Precio':
+                            foreach($products as $product){ 
+                            $this->View->response($product->Precio,200);
+                            }
+                            break;
+                        case 'Descripcion': 
+                            foreach($products as $product){
+                            $this->View->response($product->Descripcion,200);
+                            }
+                            break;
+                        case 'Stock': 
+                            foreach($products as $product){
+                            $this->View->response($product->Stock,200);
+                            }
+                            break;
+                        case 'id_categoria': 
+                            foreach($products as $product){
+                        $this->View->response($product->id_categorias,200);
+                            }
+                            break;
+                        default:$this->View->response('El producto no contiene'. $params[':subrecurso'] .'. ', 400) ; break ; 
                     } 
-                }else{$this->View->response($product,200);}
-            }else{$this->View->response('El producto con el id' . $params[':ID'] . 'no existe' , 400  );}
+                }else{
+                    $this->View->response($products,200);
+                }
+            }else{
+                $this->View->response('El producto con el id' . $params[':ID'] . 'no existe' , 400  );
+            }
         }
-
     }
     
 
@@ -100,7 +119,6 @@ class ProductApiController extends ApiController{
             }
             return $product;
         }
-
     }
 
 

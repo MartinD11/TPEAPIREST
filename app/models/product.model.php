@@ -48,8 +48,7 @@ class ProductModel extends  Model {
     }
     
 
-    
-
+ 
     public function orderASCCol($sortby,$order){
         $query = $this->db->prepare("SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias ORDER BY $sortby $order  ");
         $query->execute();

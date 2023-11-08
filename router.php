@@ -13,7 +13,7 @@
     $router->addRoute('productos/:ID',     'DELETE',    'ProductApiController', 'delete'   );
     $router->addRoute('productos/:ID',     'PUT',    'ProductApiController', 'update'   );
     $router->addRoute('productos/',     'POST',    'ProductApiController', 'create'   );
-    $router->addRoute('productos/:ID/:subrecurso',     'GET',    'ProductApiController', 'filter'   );
+    $router->addRoute('productos/filtro/:subrecurso',     'GET',    'ProductApiController', 'filter'   );
     
     $router->addRoute('user/token', 'GET',    'UserApiController', 'getToken'   );
 
