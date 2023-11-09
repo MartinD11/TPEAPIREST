@@ -55,5 +55,18 @@ class ProductModel extends  Model {
         $products = $query->fetchAll(PDO::FETCH_OBJ);
         return $products;
     }
+
+    public function filterByPrice($filtro) {
+        $query = $this->db->prepare("SELECT * FROM productos WHERE Precio < ?");
+        $query->execute([$filtro]);
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
+        return $products;
+    }
    
+    public function verifyExist($id){
+        $query = $this->db->prepare('SELECT * FROM productos  WHERE id_categorias = ? ');
+        $query->execute([$id]);
+        $product = $query->fetch(PDO::FETCH_OBJ);
+        return $product;
+    }
 }

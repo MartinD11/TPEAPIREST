@@ -54,55 +54,25 @@ class ProductApiController extends ApiController{
         }
     } else {
         // Maneja el caso en el que $page no es un valor válido
-        $this->View->response("Página no válida", 400); // Puedes devolver un código de estado 400 Bad Request
+        $this->View->response("Página no válida", 400); 
     }
         
     }
     
     
-
+//filtro que funciona por los precios menos a x cantidad dada por el usuario
     public function filter($params=[]){
-        if(empty ($params)){
-            $products=$this->Model->getProducts();
-            $this->View->response($products, 200);
-        }else{
-            $products=$this->Model->getProducts();
+        if(isset($_GET['precio'])){
+            $filtro = intval($_GET['precio']);
+            $products = $this->Model->filterByPrice($filtro);
             if(!empty($products)){
-                if($params[':subrecurso']){
-                    switch ($params[':subrecurso']){
-                        case 'Producto': 
-                            foreach($products as $product){
-                                $this->View->response($product->Producto,200);
-                            }
-                            break;
-                        case 'Precio':
-                            foreach($products as $product){ 
-                            $this->View->response($product->Precio,200);
-                            }
-                            break;
-                        case 'Descripcion': 
-                            foreach($products as $product){
-                            $this->View->response($product->Descripcion,200);
-                            }
-                            break;
-                        case 'Stock': 
-                            foreach($products as $product){
-                            $this->View->response($product->Stock,200);
-                            }
-                            break;
-                        case 'id_categoria': 
-                            foreach($products as $product){
-                        $this->View->response($product->id_categorias,200);
-                            }
-                            break;
-                        default:$this->View->response('El producto no contiene'. $params[':subrecurso'] .'. ', 400) ; break ; 
-                    } 
-                }else{
-                    $this->View->response($products,200);
-                }
+                $this->View->response($products,200);
             }else{
-                $this->View->response('El producto con el id' . $params[':ID'] . 'no existe' , 400  );
+                $this->View->response('no se ha encontrada ningun resultado con el parametro : '.$filtro. ' ' ,404);
             }
+
+        }else{
+            $this->View->response('el parametro proporcionado es invalido o no se ha proporcionado uno ', 404 );
         }
     }
     
@@ -123,11 +93,6 @@ class ProductApiController extends ApiController{
 
 
     public function update($params = []){
-        $user = $this->authHelper->currentUser();
-            if(!$user) {
-                $this->View->response('Unauthorized', 401);
-                return;
-            }
 
         $id = $params[':ID'];
         $product = $this->Model->getProductId($id);
@@ -148,7 +113,7 @@ class ProductApiController extends ApiController{
             
             $this->Model->update($id, $producto,$precio,$descripcion,$stock,$imagen);
 
-            $this->View->response('el prodcuto con id='. $id . 'ha sido modificada', 200);
+            $this->View->response('el prodcuto con id='. $id . 'ha sido modificado', 200);
 
         }else {
             $this->View->response('el prodcuto con id='. $id . 'no existe', 404);
@@ -161,15 +126,14 @@ class ProductApiController extends ApiController{
                 $this->View->response('Unauthorized', 401);
                 return;
             }
-        
         $id = $params[':ID'];
             $products = $this->Model->getProductId($id);
 
             if($products) {
                 $this->Model->remove($id);
-                $this->View->response('La tarea con id='.$id.' ha sido borrada.', 200);
+                $this->View->response('El producto con id='.$id.' ha sido borrado.', 200);
             } else {
-                $this->View->response('La tarea con id='.$id.' no existe.', 404);
+                $this->View->response('El prodcuto con id='.$id.' no existe.', 404);
             }
 
     }
