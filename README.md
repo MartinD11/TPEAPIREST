@@ -22,7 +22,8 @@ opcion 2:
 ![image](https://github.com/MartinD11/TPEAPIREST/assets/137624161/10d245f5-385a-41a1-8c3b-e2ea886cf77a)
 
 una vez hecho esto, se podra usar en su totalidad las funciones que provee esta API
-GET:
+
+GET
 
 para obtener todos los productos se requiere la siguiente URL:
 
