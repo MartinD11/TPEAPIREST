@@ -25,7 +25,7 @@ class ProductApiController extends ApiController{
             $sortby=$_GET['sortby'];
             $order=$_GET['order'];
             //agregra los campos restantes de categorias y productos
-            $arr_Atributs=['Producto','Precio', 'Descripcion', 'Stock', 'Imagen', 'id_categorias','id_producto'];
+            $arr_Atributs=['Producto','Precio', 'Descripcion', 'Stock', 'Imagen', 'Categoria','id_producto','Gama'];
 
             if(in_array($sortby, $arr_Atributs)){
                 if($order=='asc'|| $order=='desc'){
