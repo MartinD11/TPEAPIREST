@@ -33,11 +33,11 @@ class ProductApiController extends ApiController{
                 $this->View->response($products,200);
                 }else{
                     if (!($order == 'asc' || $order == 'desc')) {
-                        $this->View->response("Página no válida", 400);
+                        $this->View->response('el parametro  no existe ', 400);
                     }
                 }
             }else{
-                $this->View->response("Página no válida", 400);
+                $this->View->response("el parametro no existe", 400);
             }
         }else if ($page > 0) {
         if ($per_page === null) {
@@ -54,7 +54,7 @@ class ProductApiController extends ApiController{
         }
     } else {
         // Maneja el caso en el que $page no es un valor válido
-        $this->View->response("Página no válida", 400); 
+        $this->View->response("consulta no valida", 400); 
     }
         
     }
@@ -68,11 +68,11 @@ class ProductApiController extends ApiController{
             if(!empty($products)){
                 $this->View->response($products,200);
             }else{
-                $this->View->response('no se ha encontrada ningun resultado con el parametro : '.$filtro. ' ' ,404);
+                $this->View->response('no se ha encontrada ningun resultado con el parametro : '.$filtro. ' ' ,400);
             }
 
         }else{
-            $this->View->response('el parametro proporcionado es invalido o no se ha proporcionado uno ', 404 );
+            $this->View->response('el parametro proporcionado es invalido o no se ha proporcionado uno ', 400);
         }
     }
     

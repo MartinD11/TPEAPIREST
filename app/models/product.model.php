@@ -17,7 +17,7 @@ class ProductModel extends  Model {
     }
 
     public function getProductId($id){
-        $query = $this->db->prepare('SELECT * FROM productos WHERE id_producto = ?');
+        $query = $this->db->prepare('SELECT p.*, c.* FROM productos p INNER JOIN categorias c ON p.id_categorias = c.id_categorias WHERE id_producto = ?');
         $query->execute([$id]);
 
         
